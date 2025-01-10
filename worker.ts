@@ -16,7 +16,6 @@ export default {
 
     const start = Number(url.searchParams.get("start") || 1);
     const max = Number(url.searchParams.get("max") || 100);
-
     const show = url.searchParams.get("show");
 
     if (isNaN(start) || isNaN(max)) {
