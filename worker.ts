@@ -12,10 +12,16 @@ export default {
     if (url.searchParams.get("secret") !== env.SECRET) {
       return new Response("Unauthorized", { status: 401 });
     }
-    const requests = Array.from({ length: 10 }, (_, i) => ({
-      url: `https://hacker-news.firebaseio.com/v0/item/${Math.ceil(
-        Math.random() * 42000000,
-      )}.json`,
+
+    const start = Number(url.searchParams.get("start") || 1);
+    const max = Number(url.searchParams.get("max") || 100);
+
+    if (isNaN(start) || isNaN(max)) {
+      return new Response("Please provide numbers", { status: 400 });
+    }
+
+    const requests = Array.from({ length: max }, (_, i) => ({
+      url: `https://hacker-news.firebaseio.com/v0/item/${start + i}.json`,
     }));
 
     console.log(requests);
