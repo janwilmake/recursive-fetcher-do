@@ -1,4 +1,4 @@
-import { RecursiveFetcherEnv, createFetcher } from "./do";
+import { RecursiveFetcherEnv, dodFetch } from "./do";
 export { RecursiveFetcherDO } from "./do";
 
 interface Env extends RecursiveFetcherEnv {
