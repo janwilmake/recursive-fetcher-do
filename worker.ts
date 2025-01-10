@@ -16,7 +16,6 @@ export default {
 
     const start = Number(url.searchParams.get("start") || 1);
     const max = Number(url.searchParams.get("max") || 100);
-    const show = url.searchParams.get("show");
 
     if (isNaN(start) || isNaN(max)) {
       return new Response("Please provide numbers", { status: 400 });
@@ -26,31 +25,21 @@ export default {
       url: `https://hacker-news.firebaseio.com/v0/item/${start + i}.json`,
     }));
 
-    const { waitForResult, withResponse } = createFetcher({
+    const results = await dodFetch({
       env,
       requests,
     });
 
-    // we can wait for all and do something with that (in some cases, nothig needs to be done at all), or do something with individual responses
-    const results = await waitForResult();
-
-    // the individual request/response-pairs can be found like this.
-    // you may want to do something with them, but please note this means you need one additional request per request and may not be 1000+
-    const each = show
-      ? await Promise.all(
-          requests.map(async (request, index) => {
-            return withResponse(index).then(async (res) =>
-              res.ok
-                ? ((await res.json()) as any).response_body?.by
-                : res.text(),
-            );
-          }),
-        )
-      : undefined;
-
-    return new Response(JSON.stringify({ results, each }, undefined, 2), {
-      status: 200,
-      headers: { "Content-Type": "application/json" },
-    });
+    return new Response(
+      JSON.stringify(
+        results.map((x) => JSON.parse(x.body)),
+        undefined,
+        2,
+      ),
+      {
+        status: 200,
+        headers: { "Content-Type": "application/json" },
+      },
+    );
   },
 };

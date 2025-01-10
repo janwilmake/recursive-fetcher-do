@@ -1,11 +1,11 @@
 # Distributed Fetch Through CloudFlare Durable Objects
 
-> WIP: May still be unstable.
+> WIP: May still be unstable
 
-`dodFetch` alleviates Cloudflare limits of 1000 max requests and 6 concurrent requests in a worker. It does this using nested durable objects. The API is simple:
+`dodFetch` alleviates Cloudflare limits of 1000 max requests and 6 concurrent requests in a worker. It does this using nested durable objects. The API is simple. In the below example, we'll fetch 10000 hackernews items from their API (this will a ±10-20 seconds)
 
 ```ts
-import { RecursiveFetcherEnv, doFetch, RecursiveFetcherDO } from "dofetch";
+import { RecursiveFetcherEnv, dodFetch, RecursiveFetcherDO } from "dofetch";
 export { RecursiveFetcherDO };
 interface Env extends RecursiveFetcherEnv {
   SECRET: string;
@@ -13,16 +13,17 @@ interface Env extends RecursiveFetcherEnv {
 
 export default {
   fetch: async (request: Request, env: Env) => {
-    const responses = await doFetch({
+    // Requests can have headers, method, and body too
+    const requests = Array.from({ length: 10000 }, (_, i) => ({
+      url: `https://hacker-news.firebaseio.com/v0/item/${i + 1}.json`,
+    }));
+
+    const responses = await dodFetch({
       env,
-      requests: [
-        { url: "xyz" },
-        { url: "xyz", method: "POST" },
-        { url: "xyz", headers: { accept: "application/json" } },
-      ],
-      // optional: set a ratelimit, e.g. 500 per minute
-      rps: 500,
-      windowDuration: 60000,
+      requests,
+      // optional: set a ratelimit; higher than this is not recommended
+      rps: 5000,
+      windowDuration: 1000,
     });
 
     return new Response(JSON.stringify(responses));
