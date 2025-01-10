@@ -27,3 +27,7 @@ New version:
 After this is there, let's make it an easy to import DO so it's installable/usable by anyone. It's basically a queue abstraction without requiring to create a queue in wrangler, and it has max 5000 RPS, which is much higher than a single queue could probably do.
 
 Create `pdoRequest(Request[])` which just executes it in as many DOs as needed
+
+TODO:
+
+- this works: https://recursive-fetcher-do.githuq.workers.dev/?secret=secret&start=1000&max=900 but more than 1000 doesn't yet. is that desirable?

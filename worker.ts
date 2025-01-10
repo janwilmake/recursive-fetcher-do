@@ -6,6 +6,7 @@ interface Env extends RecursiveFetcherEnv {
 }
 
 // This is an example of how this DO can be used
+
 export default {
   fetch: async (request: Request, env: Env) => {
     const url = new URL(request.url);
@@ -24,20 +25,20 @@ export default {
       url: `https://hacker-news.firebaseio.com/v0/item/${start + i}.json`,
     }));
 
-    console.log(requests);
-
     const { waitForResult, withResponse } = createFetcher({
       env,
       requests,
     });
 
-    // we can wait for all and do something with that, or do something with individual responses
+    // we can wait for all and do something with that (in some cases, nothig needs to be done at all), or do something with individual responses
     const results = await waitForResult();
 
+    // the individual request/response-pairs can be found like this.
+    // you may want to do something with them, but please note this means you need one additional request per request and may not be 1000+
     const each = await Promise.all(
       requests.map(async (request, index) => {
-        return withResponse(index).then((res) =>
-          res.ok ? res.json() : res.text(),
+        return withResponse(index).then(async (res) =>
+          res.ok ? ((await res.json()) as any).response_body?.by : res.text(),
         );
       }),
     );
