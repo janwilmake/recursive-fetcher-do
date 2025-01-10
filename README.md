@@ -2,7 +2,7 @@
 
 > WIP: May still be unstable
 
-`dodFetch` alleviates Cloudflare limits of 1000 max requests and 6 concurrent requests in a worker. It does this using nested durable objects. The API is simple. In the below example, we'll fetch 10000 hackernews items from their API (this will a ±10-20 seconds)
+`dodFetch` alleviates Cloudflare limits of 1000 max requests and 6 concurrent requests in a worker. It does this using nested durable objects. The API is simple. In the below example, we'll fetch 10000 hackernews items from their API (this will a ±30 seconds; for less it's much faster; speed can likely still be optimised)
 
 ```ts
 import { RecursiveFetcherEnv, dodFetch, RecursiveFetcherDO } from "dofetch";
