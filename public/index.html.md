@@ -1,0 +1,1 @@
+there's a blog about some cloudflare stuff available in markdown, at /index.md. please create a html webpage styled using cdn.tailwindcss.com , in vanilla HTML, that first fetches the md, then renders it as HTML (with the right styles). ensure the website looks clean and has a little bit of a cloudflare glitter

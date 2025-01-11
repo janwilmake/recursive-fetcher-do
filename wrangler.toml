@@ -3,6 +3,13 @@ name = "recursive-fetcher-do"
 main = "worker.ts"
 compatibility_date = "2025-01-09"
 
+assets = { directory = "./public" }
+
+
+routes = [
+  { pattern = "dodfetch.claudeflair.com", custom_domain = true }
+]
+
 [durable_objects]
 bindings = [{ name = "RECURSIVE_FETCHER", class_name = "RecursiveFetcherDO" }]
 

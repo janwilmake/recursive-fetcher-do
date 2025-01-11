@@ -1,9 +1,16 @@
 {
   "name": "dodfetch",
   "description": "Distributed Fetch Through Cloudflare Durable Objects",
-  "version": "0.0.3",
+  "version": "0.0.4",
+  "type": "module",
   "main": "build/do.js",
   "types": "build/do.d.ts",
+  "exports": {
+    ".": {
+      "import": "./build/do.js",
+      "types": "./build/do.d.ts"
+    }
+  },
   "scripts": {
     "build": "tsc"
   },

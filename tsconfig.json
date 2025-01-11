@@ -2,8 +2,9 @@
   "include": ["do.ts"],
   "compilerOptions": {
     "resolveJsonModule": true,
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
+    "module": "ES2022", // Changed from NodeNext
+    "moduleResolution": "Node", // Changed from NodeNext
+    "target": "ES2022", // Added target
     "lib": ["es2022", "DOM"],
     "strict": true,
     "outDir": "build",
