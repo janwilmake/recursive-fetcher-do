@@ -1,15 +1,11 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.RecursiveFetcherDO = void 0;
-exports.dodFetch = dodFetch;
-const cloudflare_workers_1 = require("cloudflare:workers");
+import { DurableObject } from "cloudflare:workers";
 // Configuration constants
 const BRANCHES_PER_LAYER = 10;
 const INITIAL_BACKOFF_MS = 100;
 const MAX_BACKOFF_MS = 5000;
 const MAX_RETRIES = 10;
 const JITTER_MAX_MS = 50;
-async function dodFetch(context) {
+export async function dodFetch(context) {
     const { env, requests } = context;
     const rps = context.rps || 1000;
     const fetchesPerDO = 1;
@@ -75,7 +71,7 @@ async function dodFetch(context) {
         }));
     }
 }
-class RecursiveFetcherDO extends cloudflare_workers_1.DurableObject {
+export class RecursiveFetcherDO extends DurableObject {
     state;
     env;
     activeRequests = 0;
@@ -230,4 +226,3 @@ class RecursiveFetcherDO extends cloudflare_workers_1.DurableObject {
         }
     }
 }
-exports.RecursiveFetcherDO = RecursiveFetcherDO;

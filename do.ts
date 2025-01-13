@@ -45,6 +45,21 @@ export async function dodFetch(context: {
   const fetchesPerDO = 1;
   const windowDuration = context.windowDuration || 1000;
 
+  if (!env.RECURSIVE_FETCHER) {
+    throw new Error(`Please ensure to add the DO to your wrangler.toml, as such:
+      
+      
+\`\`\`toml
+[durable_objects]
+bindings = [{ name = "RECURSIVE_FETCHER", class_name = "RecursiveFetcherDO" }]
+
+[[migrations]]
+tag = "v1"
+new_classes = ["RecursiveFetcherDO"]
+\`\`\`
+
+`);
+  }
   const indexedRequests: RequestType[] = requests.map((r, i) => ({
     ...r,
     index: i,
